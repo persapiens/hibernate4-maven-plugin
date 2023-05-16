@@ -21,6 +21,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.hibernate.boot.spi.MetadataImplementor;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.tool.schema.spi.ContributableMatcher;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
 import org.hibernate.tool.schema.spi.SchemaManagementTool;
 import org.hibernate.tool.schema.spi.TargetDescriptor;
@@ -76,6 +77,8 @@ public class UpdateMojo extends AbstractSchemaMojo
 
     Map config = options.getConfigurationValues();
 
-    tool.getSchemaMigrator(config).doMigration(metadata, options, target);
+    ContributableMatcher contributableMatcher = ContributableMatcher.ALL;
+    
+    tool.getSchemaMigrator(config).doMigration(metadata, options, contributableMatcher, target);
   }
 }

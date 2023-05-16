@@ -24,10 +24,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.spi.PersistenceUnitTransactionType;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.spi.PersistenceUnitTransactionType;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
@@ -54,7 +54,7 @@ import static org.hibernate.cfg.AvailableSettings.DIALECT;
 import static org.hibernate.cfg.AvailableSettings.DRIVER;
 import static org.hibernate.cfg.AvailableSettings.FORMAT_SQL;
 import static org.hibernate.cfg.AvailableSettings.HBM2DDL_DELIMITER;
-import static org.hibernate.cfg.AvailableSettings.HBM2DLL_CREATE_NAMESPACES;
+import static org.hibernate.cfg.AvailableSettings.HBM2DDL_CREATE_NAMESPACES;
 import static org.hibernate.cfg.AvailableSettings.IMPLICIT_NAMING_STRATEGY;
 import static org.hibernate.cfg.AvailableSettings.JPA_JDBC_DRIVER;
 import static org.hibernate.cfg.AvailableSettings.JPA_JDBC_PASSWORD;
@@ -953,7 +953,7 @@ public abstract class AbstractSchemaMojo extends AbstractMojo
     configure(properties, dialect, DIALECT);
     configure(properties, delimiter, HBM2DDL_DELIMITER);
     configure(properties, format, FORMAT_SQL);
-    configure(properties, createNamespaces, HBM2DLL_CREATE_NAMESPACES);
+    configure(properties, createNamespaces, HBM2DDL_CREATE_NAMESPACES);
     configure(properties, implicitNamingStrategy, IMPLICIT_NAMING_STRATEGY);
     configure(properties, physicalNamingStrategy, PHYSICAL_NAMING_STRATEGY);
     configure(properties, outputDirectory, OUTPUTDIRECTORY);
@@ -1344,15 +1344,15 @@ public abstract class AbstractSchemaMojo extends AbstractMojo
       throws
         MojoFailureException
   {
-    PersistenceXmlParser parser =
-        new PersistenceXmlParser(
-            classLoaderService,
-            PersistenceUnitTransactionType.RESOURCE_LOCAL
-             );
-
-    Map<String, ParsedPersistenceXmlDescriptor> units =
-        parser.doResolve(properties);
-
+    URL persistenceXmlUrl = classLoaderService.locateResource("META-INF/persistence.xml");
+    Map<String, ParsedPersistenceXmlDescriptor> units;
+      
+    if (persistenceXmlUrl != null) {
+      units = PersistenceXmlParser.parse(persistenceXmlUrl, PersistenceUnitTransactionType.RESOURCE_LOCAL, properties);
+    } else {
+      units = new HashMap<>();
+    }
+      
     if (persistenceUnit == null)
     {
       Iterator<String> names = units.keySet().iterator();

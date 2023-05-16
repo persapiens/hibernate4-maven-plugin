@@ -18,10 +18,10 @@ import static org.hibernate.cfg.AvailableSettings.PASS;
 import static org.hibernate.cfg.AvailableSettings.URL;
 import static org.hibernate.cfg.AvailableSettings.USER;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import static org.hibernate.jpa.AvailableSettings.JDBC_DRIVER;
-import static org.hibernate.jpa.AvailableSettings.JDBC_PASSWORD;
-import static org.hibernate.jpa.AvailableSettings.JDBC_URL;
-import static org.hibernate.jpa.AvailableSettings.JDBC_USER;
+//import static org.hibernate.jpa.AvailableSettings.JDBC_DRIVER;
+//import static org.hibernate.jpa.AvailableSettings.JDBC_PASSWORD;
+//import static org.hibernate.jpa.AvailableSettings.JDBC_URL;
+//import static org.hibernate.jpa.AvailableSettings.JDBC_USER;
 
 /**
  *

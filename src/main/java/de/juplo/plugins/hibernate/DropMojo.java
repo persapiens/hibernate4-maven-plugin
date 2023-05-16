@@ -22,6 +22,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.hibernate.boot.spi.MetadataImplementor;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.schema.SourceType;
+import org.hibernate.tool.schema.spi.ContributableMatcher;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
 import org.hibernate.tool.schema.spi.SchemaManagementTool;
 import org.hibernate.tool.schema.spi.ScriptSourceInput;
@@ -93,6 +94,8 @@ public class DropMojo extends AbstractSchemaMojo
       }
     };
 
-    tool.getSchemaDropper(config).doDrop(metadata, options, source, target);
+    ContributableMatcher contributableMatcher = ContributableMatcher.ALL;
+    
+    tool.getSchemaDropper(config).doDrop(metadata, options, contributableMatcher, source, target);
   }
 }
